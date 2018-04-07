@@ -26,8 +26,6 @@ data class HeaderImage(
 
 data class WebImage(
         @Json(name = "guid") val guid: String,
-        @Json(name = "offsetPercentageX") val offsetPercentageX: Int,
-        @Json(name = "offsetPercentageY") val offsetPercentageY: Int,
         @Json(name = "width") val width: Int,
         @Json(name = "height") val height: Int,
         @Json(name = "url") val url: String

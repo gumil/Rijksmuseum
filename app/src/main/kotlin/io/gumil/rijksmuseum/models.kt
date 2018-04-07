@@ -14,5 +14,5 @@ internal data class CollectionItem(
 
 
 internal fun ArtObject.mapToItem(): CollectionItem {
-    return CollectionItem(title, webImage.url)
+    return CollectionItem(title, headerImage.url)
 }
