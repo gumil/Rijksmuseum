@@ -41,6 +41,5 @@ internal class RijksDetailViewModel(
                         CollectionDetailItem(item.title, item.image)
                 ))
                 .applySchedulers()
-
     }
 }

@@ -11,6 +11,8 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import io.gumil.rijksmuseum.data.util.applySchedulers
 import io.reactivex.Single
+import io.reactivex.disposables.Disposable
+import timber.log.Timber
 
 @SuppressLint("CheckResult")
 internal fun ImageView.load(url: String?,
@@ -45,11 +47,15 @@ internal fun ImageView.load(drawable: Drawable) {
             .into(this)
 }
 
-internal fun ImageView.preLoad(url: String): Single<Drawable> {
+internal fun ImageView.preLoad(url: String): Disposable {
     return Single.fromCallable {
         Glide.with(context)
                 .load(Uri.parse(url))
                 .submit()
                 .get()
-    }.applySchedulers()
+    }.applySchedulers().subscribe({
+        load(it)
+    }, {
+        Timber.e(it, "Error loading image")
+    })
 }

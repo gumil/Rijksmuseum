@@ -9,7 +9,9 @@ import io.gumil.rijksmuseum.R
 import io.gumil.rijksmuseum.common.BaseFragment
 import io.gumil.rijksmuseum.common.BaseViewModel
 import io.gumil.rijksmuseum.common.load
+import io.gumil.rijksmuseum.common.preLoad
 import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_detail.*
 import javax.inject.Inject
 
@@ -23,6 +25,13 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
     override val viewModel: BaseViewModel<DetailState, DetailAction, *>
         get() = ViewModelProviders.of(this,
                 viewModelFactory)[RijksDetailViewModel::class.java]
+
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        compositeDisposable.dispose()
+    }
 
     private fun getLoadAction(): Observable<DetailAction> {
         return rxLifecycle.filter { it == Lifecycle.Event.ON_START }.map {
@@ -40,9 +49,7 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
         is DetailState.View -> {
             detailItem?.let {
                 if (it.height > -1 && it.width > -1) {
-                    /**
-                     * TODO preload since it's image is too big
-                     */
+                    compositeDisposable.add(artImage.preLoad(it.image))
                 } else {
                     artImage.load(it.image) { centerCrop() }
                 }
