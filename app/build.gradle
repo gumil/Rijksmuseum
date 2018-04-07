@@ -28,6 +28,10 @@ android {
     }
 }
 
+androidExtensions {
+    experimental = true
+}
+
 dependencies {
     def dependencies = rootProject.ext.dependencies
 
@@ -42,5 +46,16 @@ dependencies {
     kapt dependencies.daggerAndroidApt
     kapt dependencies.daggerApt
 
+    implementation dependencies.rxBinding
+    implementation dependencies.rxBindingV4
+
     implementation dependencies.leakCanary
+
+    implementation dependencies.lifecycle
+
+    implementation dependencies.glide
+
+    implementation dependencies.kaskade
+    implementation dependencies.kaskadeRx
+    implementation dependencies.kaskadeLiveData
 }
