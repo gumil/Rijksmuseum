@@ -8,6 +8,8 @@ import android.view.View
 import com.jakewharton.rxbinding2.support.v4.widget.refreshes
 import io.gumil.rijksmuseum.R
 import io.gumil.rijksmuseum.common.*
+import io.gumil.rijksmuseum.detail.RijksDetailFragment
+import io.gumil.rijksmuseum.main.Backstack
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_list.*
 import javax.inject.Inject
@@ -16,6 +18,9 @@ internal class RijksListFragment : BaseFragment<ListState, ListAction>() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    lateinit var backstack: Backstack
 
     override val layoutId: Int = R.layout.fragment_list
 
@@ -69,7 +74,7 @@ internal class RijksListFragment : BaseFragment<ListState, ListAction>() {
             showSnackbarError(errorMessage)
             swipeRefreshLayout.isRefreshing = false
         }
-        is ListState.GoToDetail -> TODO()
+        is ListState.GoToDetail -> backstack.goTo(RijksDetailFragment.newInstance(item))
     }
 
     companion object {

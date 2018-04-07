@@ -6,7 +6,7 @@ import dagger.android.support.DaggerAppCompatActivity
 import io.gumil.rijksmuseum.R
 import io.gumil.rijksmuseum.list.RijksListFragment
 
-class MainActivity : DaggerAppCompatActivity() {
+class MainActivity : DaggerAppCompatActivity(), Backstack {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +25,7 @@ class MainActivity : DaggerAppCompatActivity() {
         }
     }
 
-    fun goTo(fragment: Fragment, addToBackStack: Boolean) {
+    override fun goTo(fragment: Fragment, addToBackStack: Boolean) {
         val tag = fragment.javaClass.simpleName
         supportFragmentManager.beginTransaction()
                 .setCustomAnimations(
