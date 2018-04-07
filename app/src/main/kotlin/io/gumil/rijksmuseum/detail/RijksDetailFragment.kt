@@ -45,18 +45,19 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
         return getLoadAction()
     }
 
-    override fun DetailState.render() = when (this) {
-        is DetailState.View -> {
-            detailItem?.let {
-                if (it.height > -1 && it.width > -1) {
-                    compositeDisposable.add(artImage.preLoad(it.image))
-                } else {
-                    artImage.load(it.image) { centerCrop() }
+    override fun DetailState.render() {
+        when (this) {
+            is DetailState.View -> {
+                detailItem?.let {
+                    if (it.height > -1 && it.width > -1) {
+                        compositeDisposable.add(artImage.preLoad(it.image))
+                    } else {
+                        artImage.load(it.image) { centerCrop() }
+                    }
                 }
             }
-            Unit //Kotlin warns return type
+            is DetailState.Error -> showSnackbarError(message)
         }
-        is DetailState.Error -> showSnackbarError(message)
     }
 
     companion object {

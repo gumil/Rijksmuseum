@@ -10,7 +10,8 @@ import com.bumptech.glide.TransitionOptions
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import io.gumil.rijksmuseum.data.util.applySchedulers
-import io.reactivex.Single
+import io.gumil.rijksmuseum.data.util.just
+import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import timber.log.Timber
 
@@ -48,11 +49,16 @@ internal fun ImageView.load(drawable: Drawable) {
 }
 
 internal fun ImageView.preLoad(url: String): Disposable {
-    return Single.fromCallable {
-        Glide.with(context)
-                .load(Uri.parse(url))
-                .submit()
-                .get()
+    return Observable.defer {
+        try {
+            Glide.with(context)
+                    .load(Uri.parse(url))
+                    .submit()
+                    .get().just()
+        } catch (e: InterruptedException) {
+            Timber.w(e, "Loading image interrupted")
+            Observable.empty<Drawable>()
+        }
     }.applySchedulers().subscribe({
         load(it)
     }, {
