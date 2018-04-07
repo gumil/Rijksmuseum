@@ -8,7 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface RijksmuseumApi {
+internal interface RijksmuseumApi {
 
     @GET("/api/{lang}/collection?key=${BuildConfig.API_KEY}&format=json")
     fun getCollections(@Path("lang") lang: String = "en", @Query("p") page: Int = 1): Single<CollectionResponse>

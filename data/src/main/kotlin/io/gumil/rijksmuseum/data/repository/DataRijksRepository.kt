@@ -6,7 +6,7 @@ import io.gumil.rijksmuseum.data.response.ArtObjectDetail
 import io.gumil.rijksmuseum.data.util.applySchedulers
 import io.reactivex.Observable
 
-class DataRijksRepository(
+internal class DataRijksRepository(
         private val api: RijksmuseumApi
 ) : RijksRepository {
     override fun getCollections(page: Int): Observable<List<ArtObject>> {

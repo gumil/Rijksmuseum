@@ -10,7 +10,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
-object ApiFactory {
+internal object ApiFactory {
 
     private const val BASE_URL = "https://www.rijksmuseum.nl/"
 
