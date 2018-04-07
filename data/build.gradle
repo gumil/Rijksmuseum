@@ -1,6 +1,10 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
+def localPropertiesFile = rootProject.file("local.properties")
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(localPropertiesFile))
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
@@ -9,6 +13,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "API_KEY", localProperties['apiKey']
     }
 
     buildTypes {
@@ -29,4 +35,17 @@ dependencies {
 
     api dependencies.timber
     api dependencies.kotlin
+
+    api dependencies.rxKotlin
+    api dependencies.rxAndroid
+
+    implementation dependencies.kotlinReflect
+
+    implementation(dependencies.moshiKotlin) {
+        exclude group: "org.jetbrains.kotlin"
+    }
+    implementation dependencies.retrofit
+    implementation dependencies.retrofitConverter
+    implementation dependencies.retrofitAdapter
+    implementation dependencies.okHttpLogger
 }
