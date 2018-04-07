@@ -27,8 +27,8 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
     private fun getLoadAction(): Observable<DetailAction> {
         return rxLifecycle.filter { it == Lifecycle.Event.ON_START }.map {
             arguments?.getParcelable<CollectionItem>(ARG_ITEM)?.let {
-                DetailAction.LoadFromItem(it)
-            } ?: DetailAction.LoadFromItem(null)
+                DetailAction.LoadItem(it)
+            } ?: DetailAction.LoadItem(null)
         }
     }
 
@@ -39,8 +39,15 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
     override fun DetailState.render() = when (this) {
         is DetailState.View -> {
             detailItem?.let {
-                artImage.load(it.image) { centerCrop() }
-            } ?: Unit
+                if (it.height > -1 && it.width > -1) {
+                    /**
+                     * TODO preload since it's image is too big
+                     */
+                } else {
+                    artImage.load(it.image) { centerCrop() }
+                }
+            }
+            Unit //Kotlin warns return type
         }
         is DetailState.Error -> showSnackbarError(message)
     }

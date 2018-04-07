@@ -54,6 +54,7 @@ dependencies {
     implementation dependencies.lifecycle
 
     implementation dependencies.glide
+    implementation dependencies.photoView
 
     implementation dependencies.kaskade
     implementation dependencies.kaskadeRx

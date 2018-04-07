@@ -18,7 +18,9 @@ internal data class CollectionItem(
 @Parcelize
 internal data class CollectionDetailItem(
         val title: String,
-        val image: String
+        val image: String,
+        val width: Int = -1,
+        val height: Int = -1
 ) : Parcelable
 
 internal fun ArtObject.mapToItem(): CollectionItem {
@@ -26,5 +28,5 @@ internal fun ArtObject.mapToItem(): CollectionItem {
 }
 
 internal fun ArtObjectDetail.mapToItem(): CollectionDetailItem {
-    return CollectionDetailItem(title, webImage.url)
+    return CollectionDetailItem(title, webImage.url, webImage.width, webImage.height)
 }

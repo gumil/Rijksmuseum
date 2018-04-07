@@ -82,10 +82,10 @@ data class Label(
 data class PrincipalMaker(
         @Json(name = "name") val name: String,
         @Json(name = "unFixedName") val unFixedName: String,
-        @Json(name = "placeOfBirth") val placeOfBirth: String,
-        @Json(name = "dateOfBirth") val dateOfBirth: String,
-        @Json(name = "dateOfDeath") val dateOfDeath: String,
-        @Json(name = "placeOfDeath") val placeOfDeath: String,
+        @Json(name = "placeOfBirth") val placeOfBirth: String?,
+        @Json(name = "dateOfBirth") val dateOfBirth: String?,
+        @Json(name = "dateOfDeath") val dateOfDeath: String?,
+        @Json(name = "placeOfDeath") val placeOfDeath: String?,
         @Json(name = "occupation") val occupation: List<String>,
         @Json(name = "roles") val roles: List<String>
 )
