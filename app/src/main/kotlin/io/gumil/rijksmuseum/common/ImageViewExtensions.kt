@@ -48,7 +48,7 @@ internal fun ImageView.load(drawable: Drawable) {
             .into(this)
 }
 
-internal fun ImageView.preLoad(url: String): Disposable {
+internal fun ImageView.preLoad(url: String, onFinished: () -> Unit = {}): Disposable {
     return Observable.defer {
         try {
             Glide.with(context)
@@ -61,6 +61,7 @@ internal fun ImageView.preLoad(url: String): Disposable {
         }
     }.applySchedulers().subscribe({
         load(it)
+        onFinished()
     }, {
         Timber.e(it, "Error loading image")
     })

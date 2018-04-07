@@ -4,6 +4,7 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.view.View
 import io.gumil.rijksmuseum.CollectionItem
 import io.gumil.rijksmuseum.R
 import io.gumil.rijksmuseum.common.BaseFragment
@@ -28,6 +29,11 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
+    override fun initializeViews(view: View) {
+        super.initializeViews(view)
+        swipeRefreshLayout.isEnabled = false
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         compositeDisposable.dispose()
@@ -50,9 +56,14 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
             is DetailState.View -> {
                 detailItem?.let {
                     if (it.height > -1 && it.width > -1) {
-                        compositeDisposable.add(artImage.preLoad(it.image))
+                        compositeDisposable.add(artImage.preLoad(it.image) {
+                            swipeRefreshLayout.isRefreshing = false
+                            swipeRefreshLayout.isEnabled = false
+                        })
                     } else {
                         artImage.load(it.image) { centerCrop() }
+                        swipeRefreshLayout.isEnabled = true
+                        swipeRefreshLayout.isRefreshing = true
                     }
                 }
             }
