@@ -5,6 +5,7 @@ import io.gumil.kaskade.Result
 import io.gumil.kaskade.State
 import io.gumil.rijksmuseum.CollectionItem
 import io.gumil.rijksmuseum.R
+import io.gumil.rijksmuseum.data.response.LinkType
 
 internal sealed class ListState : State {
 
@@ -29,10 +30,13 @@ internal sealed class ListState : State {
 
 internal sealed class ListAction : Action {
     data class Refresh(
-            val initialList: List<CollectionItem> = emptyList()
+            val initialList: List<CollectionItem> = emptyList(),
+            val param: Pair<LinkType, String>? = null
     ) : ListAction()
 
-    object Load: ListAction()
+    data class Load(
+            val param: Pair<LinkType, String>? = null
+    ): ListAction()
 
     data class OnItemClick(
             val item: CollectionItem

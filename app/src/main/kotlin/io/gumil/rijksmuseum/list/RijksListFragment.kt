@@ -35,15 +35,21 @@ internal class RijksListFragment : BaseFragment<ListState, ListAction>() {
         footerItem = FooterItem(R.layout.item_progress)
     }
 
-    private val searchString by lazy {
-        arguments?.getString(ARG_SEARCH)
-    }
+    private val searchString
+        get() = arguments?.getString(ARG_SEARCH)
 
-    private val type by lazy {
-        arguments?.getInt(ARG_TYPE)?.let {
+    private val type
+        get() = arguments?.getInt(ARG_TYPE)?.let {
             LinkType.values()[it]
         }
-    }
+
+    private val param
+        get() = searchString?.let { tag ->
+            type?.let { type ->
+                type to tag
+            }
+        }
+
 
     override fun initializeViews(view: View) {
         setToolbar(toolbar)
@@ -55,17 +61,17 @@ internal class RijksListFragment : BaseFragment<ListState, ListAction>() {
 
     private fun getLoadAction(): Observable<ListAction> {
         return rxLifecycle.filter { it == Lifecycle.Event.ON_START }.map {
-            ListAction.Refresh(emptyList())
+            ListAction.Refresh(emptyList(), param)
         }
     }
 
     override fun actions(): Observable<ListAction> = Observable.merge(
             getLoadAction(),
             adapter.prefetch().map {
-                ListAction.Load
+                ListAction.Load(param)
             },
             swipeRefreshLayout.refreshes().map {
-                ListAction.Refresh(adapter.list)
+                ListAction.Refresh(adapter.list, param)
             },
             rijksViewItem.itemClick().map {
                 ListAction.OnItemClick(it)

@@ -5,6 +5,7 @@ import io.gumil.kaskade.StateMachine
 import io.gumil.kaskade.rx.toDeferred
 import io.gumil.rijksmuseum.common.BaseViewModel
 import io.gumil.rijksmuseum.data.repository.RijksRepository
+import io.gumil.rijksmuseum.data.response.LinkType
 import io.gumil.rijksmuseum.data.util.applySchedulers
 import io.gumil.rijksmuseum.mapToItem
 import io.reactivex.Observable
@@ -33,11 +34,13 @@ internal class RijksListViewModel(
             }
 
             currentPage = 1
-            repository.loadCollections(currentPage, ListResult.Mode.REFRESH, startWith).toDeferred()
+            repository.loadCollections(currentPage, ListResult.Mode.REFRESH,
+                    startWith, param = it.param).toDeferred()
         }
 
         addActionHandler(ListAction.Load::class) {
-            repository.loadCollections(++currentPage, ListResult.Mode.LOAD_MORE).toDeferred()
+            repository.loadCollections(++currentPage, ListResult.Mode.LOAD_MORE,
+                    param = it.param).toDeferred()
         }
 
         addActionHandler(ListAction.OnItemClick::class) {
@@ -48,9 +51,10 @@ internal class RijksListViewModel(
     private fun RijksRepository.loadCollections(
             page: Int,
             mode: ListResult.Mode,
-            startWith: ListResult = ListResult.InProgress(mode)
+            startWith: ListResult = ListResult.InProgress(mode),
+            param: Pair<LinkType, String>? = null
     ): Observable<ListResult> {
-        return getCollections(page)
+        return getCollections(page, param)
                 .map {
                     ListResult.Success(it.map { it.mapToItem() }, mode)
                 }

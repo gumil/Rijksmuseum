@@ -7,11 +7,14 @@ import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.QueryMap
 
 internal interface RijksmuseumApi {
 
     @GET("/api/{lang}/collection?key=${BuildConfig.API_KEY}&format=json&imgonly=true")
-    fun getCollections(@Path("lang") lang: String = "en", @Query("p") page: Int = 1): Single<CollectionResponse>
+    fun getCollections(@Path("lang") lang: String = "en",
+                       @Query("p") page: Int = 1,
+                       @QueryMap map: Map<String, String>): Single<CollectionResponse>
 
     @GET("/api/{lang}/collection/{id}?key=${BuildConfig.API_KEY}&format=json")
     fun getCollection(@Path("id") id: String,
