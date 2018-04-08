@@ -52,4 +52,7 @@ dependencies {
     implementation dependencies.retrofitConverter
     implementation dependencies.retrofitAdapter
     implementation dependencies.okHttpLogger
+
+    testImplementation dependencies.junit
+    testImplementation dependencies.mockWebServer
 }
