@@ -48,6 +48,13 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
         super.initializeViews(view)
         swipeRefreshLayout.isEnabled = false
         detailsTags.movementMethod = LinkMovementMethod.getInstance()
+        artImage.setZoomable(false)
+
+        bottomSheet.setOnClickListener {
+            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -77,7 +84,9 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
                     if (isLoaded) {
                         swipeRefreshLayout.isRefreshing = false
                         swipeRefreshLayout.isEnabled = false
-                        compositeDisposable.add(artImage.preLoad(it.image))
+                        compositeDisposable.add(artImage.preLoad(it.image) {
+                            artImage.setZoomable(true)
+                        })
                     } else {
                         swipeRefreshLayout.isEnabled = true
                         swipeRefreshLayout.isRefreshing = true
