@@ -38,6 +38,7 @@ dependencies {
     implementation project(':data')
 
     implementation dependencies.recyclerView
+    implementation dependencies.cardView
     implementation dependencies.appCompat
     implementation dependencies.design
     implementation dependencies.constraintLayout

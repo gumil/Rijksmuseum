@@ -21,6 +21,7 @@ import io.gumil.rijksmuseum.common.BaseViewModel
 import io.gumil.rijksmuseum.common.load
 import io.gumil.rijksmuseum.common.preLoad
 import io.gumil.rijksmuseum.data.response.LinkType
+import io.gumil.rijksmuseum.main.Backstack
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
@@ -31,6 +32,9 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    lateinit var backstack: Backstack
 
     override val layoutId: Int = R.layout.fragment_detail
 

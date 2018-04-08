@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,16 +14,19 @@ import io.gumil.kaskade.Action
 import io.gumil.kaskade.State
 import io.reactivex.Observable
 
-internal abstract class BaseFragment<S: State, A: Action>: DaggerFragment() {
+internal abstract class BaseFragment<S : State, A : Action> : DaggerFragment() {
 
     abstract val layoutId: Int
     abstract val viewModel: BaseViewModel<S, A, *>
     protected val rxLifecycle = RxLifecycle()
 
+    private val appActivity
+        get() = (activity as? AppCompatActivity)
+
     var title: String?
-        get() = (activity as? AppCompatActivity)?.title.toString()
+        get() = appActivity?.title.toString()
         set(value) {
-            (activity as? AppCompatActivity)?.title = value
+            appActivity?.title = value
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +54,10 @@ internal abstract class BaseFragment<S: State, A: Action>: DaggerFragment() {
         view?.let {
             Snackbar.make(it, stringRes, Snackbar.LENGTH_SHORT).show()
         }
+    }
+
+    fun setToolbar(toolbar: Toolbar) {
+        appActivity?.setSupportActionBar(toolbar)
     }
 
     open fun initializeViews(view: View) {}

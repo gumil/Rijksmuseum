@@ -3,11 +3,13 @@ package io.gumil.rijksmuseum.list
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.jakewharton.rxbinding2.support.v4.widget.refreshes
 import io.gumil.rijksmuseum.R
 import io.gumil.rijksmuseum.common.*
+import io.gumil.rijksmuseum.data.response.LinkType
 import io.gumil.rijksmuseum.detail.RijksDetailFragment
 import io.gumil.rijksmuseum.main.Backstack
 import io.reactivex.Observable
@@ -33,7 +35,18 @@ internal class RijksListFragment : BaseFragment<ListState, ListAction>() {
         footerItem = FooterItem(R.layout.item_progress)
     }
 
+    private val searchString by lazy {
+        arguments?.getString(ARG_SEARCH)
+    }
+
+    private val type by lazy {
+        arguments?.getInt(ARG_TYPE)?.let {
+            LinkType.values()[it]
+        }
+    }
+
     override fun initializeViews(view: View) {
+        setToolbar(toolbar)
         title = getString(R.string.app_name)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
@@ -78,6 +91,16 @@ internal class RijksListFragment : BaseFragment<ListState, ListAction>() {
     }
 
     companion object {
-        fun newInstance(): RijksListFragment = RijksListFragment()
+        private const val ARG_SEARCH = "arg_search"
+        private const val ARG_TYPE = "arg_type"
+
+        fun newInstance(search: String = "", type: Int = -1): RijksListFragment = RijksListFragment().apply {
+            if (search.isNotBlank() && type > -1) {
+                arguments = Bundle().apply {
+                    putString(ARG_SEARCH, search)
+                    putInt(ARG_TYPE, type)
+                }
+            }
+        }
     }
 }
