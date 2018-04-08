@@ -1,5 +1,6 @@
 package io.gumil.rijksmuseum.data
 
+import android.content.Context
 import dagger.Component
 import io.gumil.rijksmuseum.data.network.ApiModule
 import io.gumil.rijksmuseum.data.repository.RepositoryModule
@@ -17,7 +18,7 @@ interface DataComponent {
 }
 
 object DataDiBuilder {
-    fun build(isDebug: Boolean) = DaggerDataComponent.builder()
-            .apiModule(ApiModule(isDebug))
+    fun build(context: Context, isDebug: Boolean) = DaggerDataComponent.builder()
+            .apiModule(ApiModule(context, isDebug))
             .build()
 }

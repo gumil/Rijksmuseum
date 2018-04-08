@@ -1,7 +1,12 @@
 package io.gumil.rijksmuseum.data.network
 
+import android.content.Context
+import android.net.ConnectivityManager
 import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
+import okhttp3.Cache
+import okhttp3.CacheControl
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
@@ -13,9 +18,10 @@ import java.util.concurrent.TimeUnit
 internal object ApiFactory {
 
     private const val BASE_URL = "https://www.rijksmuseum.nl/"
+    private const val CACHE_SIZE: Long = 10 * 1024 * 1024
 
-    fun create(isDebug: Boolean, url: String = BASE_URL) =
-            createRijksmuseumApi(url, createOkHttpClient(createLoggingInterceptor(isDebug)))
+    fun create(context: Context?, isDebug: Boolean, url: String = BASE_URL) =
+            createRijksmuseumApi(url, createOkHttpClient(context, createLoggingInterceptor(isDebug)))
 
     private fun createRijksmuseumApi(url: String, okHttpClient: OkHttpClient): RijksmuseumApi =
             Retrofit.Builder()
@@ -25,11 +31,18 @@ internal object ApiFactory {
                     .addConverterFactory(createConverter())
                     .build().create(RijksmuseumApi::class.java)
 
-    private fun createOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
+    private fun createOkHttpClient(context: Context?, httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
             OkHttpClient.Builder()
+                    .addNetworkInterceptor(cacheResponseInterceptor())
+                    .apply {
+                        context?.let {
+                            cache(Cache(it.cacheDir, CACHE_SIZE))
+                            addInterceptor(cacheInterceptor(it))
+                        }
+                    }
                     .addInterceptor(httpLoggingInterceptor)
-                    .connectTimeout(60, TimeUnit.SECONDS)
-                    .readTimeout(60, TimeUnit.SECONDS)
+                    .connectTimeout(20, TimeUnit.SECONDS)
+                    .readTimeout(20, TimeUnit.SECONDS)
                     .build()
 
     private fun createLoggingInterceptor(isDebug: Boolean): HttpLoggingInterceptor =
@@ -41,6 +54,26 @@ internal object ApiFactory {
                 }
             }
 
+    private fun cacheInterceptor(context: Context): Interceptor = Interceptor { chain ->
+        chain.proceed(chain.request()
+                .newBuilder()
+                .apply {
+                    if (!context.isNetworkAvailable()) {
+                        cacheControl(CacheControl.FORCE_CACHE)
+                    }
+                }
+                .build())
+    }
+
+    private fun cacheResponseInterceptor() = Interceptor {
+        it.proceed(it.request()).newBuilder()
+                .removeHeader("Pragma")
+                .removeHeader("Cache-Control")
+                .header("Cache-Control", "public, max-age=120, max-stale=${Integer.MAX_VALUE}")
+                .build()
+    }
+
+
     private fun createConverter(): Converter.Factory {
         return MoshiConverterFactory.create(
                 createMoshi())
@@ -51,4 +84,11 @@ internal object ApiFactory {
                 .add(KotlinJsonAdapterFactory())
                 .build()
     }
+
+    private fun Context.isNetworkAvailable(): Boolean {
+        val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = cm.activeNetworkInfo
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting
+    }
 }
+

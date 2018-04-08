@@ -1,1 +1,6 @@
-<manifest package="io.gumil.rijksmuseum.data" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="io.gumil.rijksmuseum.data">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+</manifest>

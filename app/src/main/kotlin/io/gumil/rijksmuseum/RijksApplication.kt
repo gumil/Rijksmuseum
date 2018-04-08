@@ -24,7 +24,7 @@ internal class RijksApplication : DaggerApplication() {
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         return DaggerAppComponent.builder()
-                .dataComponent(DataDiBuilder.build(BuildConfig.DEBUG))
+                .dataComponent(DataDiBuilder.build(this, BuildConfig.DEBUG))
                 .build()
     }
 }
