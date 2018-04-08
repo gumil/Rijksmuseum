@@ -100,7 +100,11 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
                 }
             }
             is DetailState.GoTo -> backstack.goTo(RijksListFragment.newInstance(type.ordinal, tag))
-            is DetailState.Error -> showSnackbarError(message)
+            is DetailState.Error -> {
+                swipeRefreshLayout.isRefreshing = false
+                swipeRefreshLayout.isEnabled = false
+                showSnackbarError(message)
+            }
         }
     }
 
