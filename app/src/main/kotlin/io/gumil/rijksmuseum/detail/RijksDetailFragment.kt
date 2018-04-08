@@ -114,20 +114,23 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
         detailsSubtitle.setTextAndVisibility(detailItem.subtitle)
         detailsDescription.setTextAndVisibility(detailItem.description)
 
-        val spannableBuilder = SpannableStringBuilder(getString(R.string.tags)).append(" ")
-
-        spannableBuilder.addToBuilder(detailItem.maker, LinkType.MAKER)
-        spannableBuilder.addToBuilder(detailItem.date, LinkType.PERIOD, detailItem.period.toString())
-        spannableBuilder.addAllToBuilder(detailItem.types, LinkType.TYPE)
-        spannableBuilder.addAllToBuilder(detailItem.materials, LinkType.MATERIAL)
-        spannableBuilder.addAllToBuilder(detailItem.techniques, LinkType.TECHNIQUE)
+        val spannableBuilder = SpannableStringBuilder(getString(R.string.tags))
+                .append(" ")
+                .addToBuilder(detailItem.maker, LinkType.MAKER)
+                .addToBuilder(detailItem.date, LinkType.PERIOD, detailItem.period.toString())
+                .addAllToBuilder(detailItem.types, LinkType.TYPE)
+                .addAllToBuilder(detailItem.materials, LinkType.MATERIAL)
+                .addAllToBuilder(detailItem.techniques, LinkType.TECHNIQUE)
 
         if (spannableBuilder.trim().isNotBlank()) {
             detailsTags.setTextAndVisibility(spannableBuilder)
         }
     }
 
-    private fun SpannableStringBuilder.addAllToBuilder(strings: List<String>?, type: LinkType) {
+    private fun SpannableStringBuilder.addAllToBuilder(
+            strings: List<String>?,
+            type: LinkType
+    ): SpannableStringBuilder {
         strings?.let {
             if (it.isNotEmpty()) {
                 it.forEach {
@@ -135,14 +138,20 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
                 }
             }
         }
+        return this
     }
 
-    private fun SpannableStringBuilder.addToBuilder(string: String?, type: LinkType, customString: String? = null) {
+    private fun SpannableStringBuilder.addToBuilder(
+            string: String?, type: LinkType,
+            customString: String? = null
+    ): SpannableStringBuilder {
         string?.let {
             append(it.toClickableSpan {
                 spanOnClickSubject.onNext(type to (customString ?: it))
             }).append(" ")
         }
+
+        return this
     }
 
     companion object {
