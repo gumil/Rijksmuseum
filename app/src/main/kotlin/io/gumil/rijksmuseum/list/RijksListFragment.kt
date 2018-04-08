@@ -50,7 +50,6 @@ internal class RijksListFragment : BaseFragment<ListState, ListAction>() {
             }
         }
 
-
     override fun initializeViews(view: View) {
         setToolbar(toolbar)
         showBack(searchString != null)
