@@ -1,6 +1,5 @@
 package io.gumil.rijksmuseum.list
 
-import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -63,7 +62,7 @@ internal class RijksListFragment : BaseFragment<ListState, ListAction>() {
     }
 
     private fun getLoadAction(): Observable<ListAction> {
-        return rxLifecycle.filter { it == Lifecycle.Event.ON_START }.map {
+        return onViewCreatedObservable.map {
             ListAction.Refresh(emptyList(), param)
         }
     }

@@ -13,12 +13,12 @@ import dagger.android.support.DaggerFragment
 import io.gumil.kaskade.Action
 import io.gumil.kaskade.State
 import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 
 internal abstract class BaseFragment<S : State, A : Action> : DaggerFragment() {
 
     abstract val layoutId: Int
     abstract val viewModel: BaseViewModel<S, A, *>
-    protected val rxLifecycle = RxLifecycle()
 
     private val appActivity
         get() = (activity as? AppCompatActivity)
@@ -29,11 +29,9 @@ internal abstract class BaseFragment<S : State, A : Action> : DaggerFragment() {
             appActivity?.title = value
         }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private val onViewCreatedSubject = PublishSubject.create<Unit>()
 
-        lifecycle.addObserver(rxLifecycle)
-    }
+    protected val onViewCreatedObservable: Observable<Unit> get() = onViewCreatedSubject
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(layoutId, container, false)
@@ -48,6 +46,8 @@ internal abstract class BaseFragment<S : State, A : Action> : DaggerFragment() {
         viewModel.processActions(actions())
 
         initializeViews(view)
+
+        onViewCreatedSubject.onNext(Unit)
     }
 
     fun showSnackbarError(@StringRes stringRes: Int) {

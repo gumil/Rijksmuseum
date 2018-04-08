@@ -1,6 +1,5 @@
 package io.gumil.rijksmuseum.detail
 
-import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -63,7 +62,7 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
     }
 
     private fun getLoadAction(): Observable<DetailAction> {
-        return rxLifecycle.filter { it == Lifecycle.Event.ON_START }.map {
+        return onViewCreatedObservable.map {
             arguments?.getParcelable<CollectionItem>(ARG_ITEM)?.let {
                 DetailAction.LoadItem(it)
             } ?: DetailAction.LoadItem(null)
