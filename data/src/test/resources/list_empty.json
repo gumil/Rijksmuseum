@@ -1,0 +1,53 @@
+{
+  "elapsedMilliseconds": 0,
+  "count": 0,
+  "countFacets": {
+    "hasimage": 0,
+    "ondisplay": 0
+  },
+  "artObjects": [],
+  "facets": [
+    {
+      "facets": [],
+      "name": "principalMaker",
+      "otherTerms": 0,
+      "prettyName": 10
+    },
+    {
+      "facets": [],
+      "name": "type",
+      "otherTerms": 0,
+      "prettyName": 3
+    },
+    {
+      "facets": [],
+      "name": "dating.period",
+      "otherTerms": 0,
+      "prettyName": 4
+    },
+    {
+      "facets": [],
+      "name": "place",
+      "otherTerms": 0,
+      "prettyName": 2
+    },
+    {
+      "facets": [],
+      "name": "material",
+      "otherTerms": 0,
+      "prettyName": 5
+    },
+    {
+      "facets": [],
+      "name": "technique",
+      "otherTerms": 0,
+      "prettyName": 8
+    },
+    {
+      "facets": [],
+      "name": "normalized32Colors.hex",
+      "otherTerms": 0,
+      "prettyName": 9
+    }
+  ]
+}
