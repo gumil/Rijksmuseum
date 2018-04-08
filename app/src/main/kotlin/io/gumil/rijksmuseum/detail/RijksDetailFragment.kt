@@ -4,7 +4,9 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.design.widget.BottomSheetBehavior
 import android.view.View
+import android.widget.TextView
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import io.gumil.rijksmuseum.CollectionItem
 import io.gumil.rijksmuseum.R
@@ -29,6 +31,10 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
                 viewModelFactory)[RijksDetailViewModel::class.java]
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+
+    private val bottomSheetBehavior by lazy {
+        BottomSheetBehavior.from(bottomSheet)
+    }
 
     override fun initializeViews(view: View) {
         super.initializeViews(view)
@@ -67,10 +73,26 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
                             placeholder(R.drawable.ic_image_24dp)
                         }, DrawableTransitionOptions.withCrossFade())
                     }
+
+                    detailsTitle.text = it.title
+                    detailsTitle.post {
+                        bottomSheetBehavior.peekHeight = detailsTitle.height
+                    }
+
+                    detailsMakerLine.setTextAndVisibility(it.makerLine)
+                    detailsSubtitle.setTextAndVisibility(it.subtitle)
+                    detailsDescription.setTextAndVisibility(it.description)
                 }
             }
             is DetailState.Error -> showSnackbarError(message)
         }
+    }
+
+    private fun TextView.setTextAndVisibility(text: String?) {
+        text?.let {
+            this.text = it
+            visibility = View.VISIBLE
+        } ?: let { visibility = View.GONE }
     }
 
     companion object {

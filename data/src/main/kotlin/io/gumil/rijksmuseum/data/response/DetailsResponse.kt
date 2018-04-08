@@ -41,7 +41,7 @@ data class ArtObjectDetail(
         @Json(name = "principalOrFirstMaker") val principalOrFirstMaker: String?,
         @Json(name = "dimensions") val dimensions: List<Dimension>?,
         @Json(name = "physicalMedium") val physicalMedium: String?,
-        @Json(name = "longTitle") val longTitle: String?,
+        @Json(name = "longTitle") val longTitle: String,
         @Json(name = "subTitle") val subTitle: String?,
         @Json(name = "scLabelLine") val scLabelLine: String?,
         @Json(name = "label") val label: Label,
