@@ -10,4 +10,4 @@ fun <T> Observable<T>.applySchedulers(): Observable<T> {
 }
 
 fun <T> T.just() = Observable.just(this)
-fun <T: Throwable, U> T.error() = Observable.error<U>(this)
+fun <U> Throwable.error() = Observable.error<U>(this)
