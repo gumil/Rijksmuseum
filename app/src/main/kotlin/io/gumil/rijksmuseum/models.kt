@@ -37,6 +37,6 @@ internal fun ArtObject.mapToItem(): CollectionItem {
 
 internal fun ArtObjectDetail.mapToItem(): CollectionDetailItem {
     return CollectionDetailItem(title, webImage.url, scLabelLine, subTitle,
-            label.description, objectTypes, principalMaker, dating?.presentingDate,
+            label?.description, objectTypes, principalMaker, dating?.presentingDate,
             dating?.period, techniques, materials)
 }
