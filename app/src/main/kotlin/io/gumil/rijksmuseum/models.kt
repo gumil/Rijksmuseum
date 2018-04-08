@@ -22,7 +22,13 @@ internal data class CollectionDetailItem(
         val image: String,
         val makerLine: String? = null,
         val subtitle: String? = null,
-        val description: String? = null
+        val description: String? = null,
+        val types: List<String>? = null,
+        val maker: String? = null,
+        val date: String? = null,
+        val period: Int? = null,
+        val techniques: List<String>? = null,
+        val materials: List<String>? = null
 ) : Parcelable
 
 internal fun ArtObject.mapToItem(): CollectionItem {
@@ -30,5 +36,7 @@ internal fun ArtObject.mapToItem(): CollectionItem {
 }
 
 internal fun ArtObjectDetail.mapToItem(): CollectionDetailItem {
-    return CollectionDetailItem(title, webImage.url, scLabelLine, subTitle, label.description)
+    return CollectionDetailItem(title, webImage.url, scLabelLine, subTitle,
+            label.description, objectTypes, principalMaker, dating?.presentingDate,
+            dating?.period, techniques, materials)
 }

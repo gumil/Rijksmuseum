@@ -26,7 +26,7 @@ data class ArtObjectDetail(
         @Json(name = "webImage") val webImage: WebImage,
         @Json(name = "titles") val titles: List<String>,
         @Json(name = "description") val description: String,
-        @Json(name = "objectTypes") val objectTypes: List<String>,
+        @Json(name = "objectTypes") val objectTypes: List<String>?,
         @Json(name = "objectCollection") val objectCollection: List<String>,
         @Json(name = "principalMakers") val principalMakers: List<PrincipalMaker>,
         @Json(name = "plaqueDescriptionDutch") val plaqueDescriptionDutch: String?,
@@ -34,6 +34,7 @@ data class ArtObjectDetail(
         @Json(name = "principalMaker") val principalMaker: String?,
         @Json(name = "acquisition") val acquisition: Acquisition?,
         @Json(name = "materials") val materials: List<String>?,
+        @Json(name = "techniques") val techniques: List<String>?,
         @Json(name = "dating") val dating: Dating?,
         @Json(name = "classification") val classification: Classification?,
         @Json(name = "hasImage") val hasImage: Boolean,
@@ -89,3 +90,14 @@ data class PrincipalMaker(
         @Json(name = "roles") val roles: List<String>
 )
 
+enum class LinkType {
+    TYPE, MAKER, PERIOD, MATERIAL, TECHNIQUE;
+
+    override fun toString(): String {
+        return when(this) {
+            LinkType.MAKER -> "principalMaker"
+            LinkType.PERIOD -> "f.dating.period"
+            else -> this.name.toLowerCase()
+        }
+    }
+}

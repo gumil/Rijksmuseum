@@ -25,6 +25,10 @@ internal class RijksDetailViewModel(
                             DetailResult.Success(null)
                     )
                 }
+
+                addActionHandler(DetailAction.OpenLink::class) {
+                    DeferredValue(DetailResult.Success(null))
+                }
             }
 
     private fun RijksRepository.loadItem(item: CollectionItem): Observable<DetailResult> {

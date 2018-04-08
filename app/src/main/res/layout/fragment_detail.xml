@@ -60,6 +60,15 @@
             android:visibility="gone" />
 
         <TextView
+            android:id="@+id/detailsTags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/default_half_padding"
+            android:paddingEnd="@dimen/default_padding"
+            android:paddingStart="@dimen/default_padding"
+            android:visibility="gone" />
+
+        <TextView
             android:id="@+id/detailsSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
