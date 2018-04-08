@@ -10,7 +10,7 @@ import retrofit2.http.Query
 
 internal interface RijksmuseumApi {
 
-    @GET("/api/{lang}/collection?key=${BuildConfig.API_KEY}&format=json")
+    @GET("/api/{lang}/collection?key=${BuildConfig.API_KEY}&format=json&imgonly=true")
     fun getCollections(@Path("lang") lang: String = "en", @Query("p") page: Int = 1): Single<CollectionResponse>
 
     @GET("/api/{lang}/collection/{id}?key=${BuildConfig.API_KEY}&format=json")
