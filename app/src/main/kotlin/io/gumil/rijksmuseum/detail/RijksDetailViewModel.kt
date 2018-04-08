@@ -27,7 +27,7 @@ internal class RijksDetailViewModel(
                 }
 
                 addActionHandler(DetailAction.OpenLink::class) {
-                    DeferredValue(DetailResult.GoTo(it.tag, it.type))
+                    DeferredValue(DetailResult.GoTo(it.type, it.tag))
                 }
             }
 

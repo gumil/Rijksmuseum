@@ -45,7 +45,7 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
 
     private val compositeDisposable = CompositeDisposable()
 
-    private val spanOnClickSubject = PublishSubject.create<Pair<String, LinkType>>()
+    private val spanOnClickSubject = PublishSubject.create<Pair<LinkType, String>>()
 
     private val bottomSheetBehavior by lazy {
         BottomSheetBehavior.from(bottomSheet)
@@ -96,7 +96,7 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
                     populateDetails(it)
                 }
             }
-            is DetailState.GoTo -> backstack.goTo(RijksListFragment.newInstance(tag, type.ordinal))
+            is DetailState.GoTo -> backstack.goTo(RijksListFragment.newInstance(type.ordinal, tag))
             is DetailState.Error -> showSnackbarError(message)
         }
     }
@@ -145,7 +145,7 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
         return SpannableString(this).apply {
             setSpan(object : ClickableSpan() {
                 override fun onClick(widget: View?) {
-                    spanOnClickSubject.onNext((customString ?: this@toClickableSpan) to type)
+                    spanOnClickSubject.onNext(type to (customString ?: this@toClickableSpan))
                 }
             }, 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }

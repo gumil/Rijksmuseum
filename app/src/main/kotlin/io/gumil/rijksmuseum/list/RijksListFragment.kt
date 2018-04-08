@@ -95,11 +95,11 @@ internal class RijksListFragment : BaseFragment<ListState, ListAction>() {
         private const val ARG_SEARCH = "arg_search"
         private const val ARG_TYPE = "arg_type"
 
-        fun newInstance(search: String = "", type: Int = -1): RijksListFragment = RijksListFragment().apply {
+        fun newInstance(type: Int = -1, search: String = ""): RijksListFragment = RijksListFragment().apply {
             if (search.isNotBlank() && type > -1) {
                 arguments = Bundle().apply {
-                    putString(ARG_SEARCH, search)
                     putInt(ARG_TYPE, type)
+                    putString(ARG_SEARCH, search)
                 }
             }
         }

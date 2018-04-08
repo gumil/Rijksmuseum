@@ -15,8 +15,8 @@ internal sealed class DetailState : State {
     ) : DetailState()
 
     data class GoTo(
-            val tag: String,
-            val type: LinkType
+            val type: LinkType,
+            val tag: String
     ) : DetailState()
 
     data class Error(
@@ -30,8 +30,8 @@ internal sealed class DetailAction : Action {
     ) : DetailAction()
 
     data class OpenLink(
-            val tag: String,
-            val type: LinkType
+            val type: LinkType,
+            val tag: String
     ) : DetailAction()
 }
 
@@ -46,11 +46,11 @@ internal sealed class DetailResult : Result<DetailState> {
     }
 
     data class GoTo(
-            private val tag: String,
-            private val type: LinkType
+            private val type: LinkType,
+            private val tag: String
     ) : DetailResult() {
         override fun reduceToState(oldState: DetailState): DetailState =
-                DetailState.GoTo(tag, type)
+                DetailState.GoTo(type, tag)
     }
 
     class Error : DetailResult() {
