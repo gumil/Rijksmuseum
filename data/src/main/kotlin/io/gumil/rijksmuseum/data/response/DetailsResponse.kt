@@ -7,7 +7,6 @@ data class DetailsResponse(
 )
 
 data class ArtObjectDetail(
-        @Json(name = "id") val id: String,
         @Json(name = "title") val title: String,
         @Json(name = "webImage") val webImage: WebImage,
         @Json(name = "objectTypes") val objectTypes: List<String>?,

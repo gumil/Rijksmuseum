@@ -86,7 +86,6 @@ internal class RijksRepositoryTest {
         assertEquals(3, subscriber.events.size)
 
         val expected = ArtObjectDetail(
-                "en-SK-A-2815",
                 "The Seven Works of Mercy",
                 WebImage("http://lh3.googleusercontent.com/PKiHHjb5ov-6RQm4WjTmQL7gQsiqz-jTgy6aJoUfXFPB-FPJF2XMcgjdpf0rMfPtQoePma2oYkAiN83RDwlyU34phg=s0"),
                 listOf("painting"),
