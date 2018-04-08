@@ -16,6 +16,7 @@ import io.gumil.rijksmuseum.data.response.LinkType
 import io.gumil.rijksmuseum.list.RijksListFragment
 import io.gumil.rijksmuseum.main.Backstack
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_detail.*
@@ -59,6 +60,7 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
     override fun onDestroyView() {
         super.onDestroyView()
         compositeDisposable.dispose()
+        spanOnClickSubject.unsubscribeOn(AndroidSchedulers.mainThread())
     }
 
     private fun getLoadAction(): Observable<DetailAction> {

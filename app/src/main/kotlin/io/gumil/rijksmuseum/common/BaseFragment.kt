@@ -13,6 +13,7 @@ import dagger.android.support.DaggerFragment
 import io.gumil.kaskade.Action
 import io.gumil.kaskade.State
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 
 internal abstract class BaseFragment<S : State, A : Action> : DaggerFragment() {
@@ -48,6 +49,11 @@ internal abstract class BaseFragment<S : State, A : Action> : DaggerFragment() {
         initializeViews(view)
 
         onViewCreatedSubject.onNext(Unit)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        onViewCreatedSubject.unsubscribeOn(AndroidSchedulers.mainThread())
     }
 
     fun showSnackbarError(@StringRes stringRes: Int) {
