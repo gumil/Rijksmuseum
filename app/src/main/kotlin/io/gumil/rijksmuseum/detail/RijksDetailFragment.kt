@@ -21,6 +21,7 @@ import io.gumil.rijksmuseum.common.BaseViewModel
 import io.gumil.rijksmuseum.common.load
 import io.gumil.rijksmuseum.common.preLoad
 import io.gumil.rijksmuseum.data.response.LinkType
+import io.gumil.rijksmuseum.list.RijksListFragment
 import io.gumil.rijksmuseum.main.Backstack
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -95,6 +96,7 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
                     populateDetails(it)
                 }
             }
+            is DetailState.GoTo -> backstack.goTo(RijksListFragment.newInstance(tag, type.ordinal))
             is DetailState.Error -> showSnackbarError(message)
         }
     }

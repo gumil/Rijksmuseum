@@ -60,6 +60,10 @@ internal abstract class BaseFragment<S : State, A : Action> : DaggerFragment() {
         appActivity?.setSupportActionBar(toolbar)
     }
 
+    fun showBack(show: Boolean) {
+        appActivity?.supportActionBar?.setDisplayHomeAsUpEnabled(show)
+    }
+
     open fun initializeViews(view: View) {}
 
     abstract fun actions(): Observable<A>

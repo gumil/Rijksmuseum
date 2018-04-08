@@ -47,7 +47,8 @@ internal class RijksListFragment : BaseFragment<ListState, ListAction>() {
 
     override fun initializeViews(view: View) {
         setToolbar(toolbar)
-        title = getString(R.string.app_name)
+        showBack(searchString != null)
+        title = searchString ?: getString(R.string.app_name)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
     }

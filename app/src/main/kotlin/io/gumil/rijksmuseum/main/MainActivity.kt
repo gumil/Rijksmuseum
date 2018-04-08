@@ -2,6 +2,7 @@ package io.gumil.rijksmuseum.main
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.MenuItem
 import dagger.android.support.DaggerAppCompatActivity
 import io.gumil.rijksmuseum.R
 import io.gumil.rijksmuseum.list.RijksListFragment
@@ -40,5 +41,15 @@ class MainActivity : DaggerAppCompatActivity(), Backstack {
                         addToBackStack(tag)
                     }
                 }.commit()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

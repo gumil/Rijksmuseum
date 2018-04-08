@@ -14,6 +14,11 @@ internal sealed class DetailState : State {
             val isLoaded: Boolean = false
     ) : DetailState()
 
+    data class GoTo(
+            val tag: String,
+            val type: LinkType
+    ) : DetailState()
+
     data class Error(
             val message: Int
     ) : DetailState()
@@ -38,6 +43,14 @@ internal sealed class DetailResult : Result<DetailState> {
     ) : DetailResult() {
         override fun reduceToState(oldState: DetailState): DetailState =
                 DetailState.View(detailItem, isLoaded)
+    }
+
+    data class GoTo(
+            private val tag: String,
+            private val type: LinkType
+    ) : DetailResult() {
+        override fun reduceToState(oldState: DetailState): DetailState =
+                DetailState.GoTo(tag, type)
     }
 
     class Error : DetailResult() {
