@@ -3,7 +3,7 @@ package io.gumil.rijksmuseum.data.response
 import com.squareup.moshi.Json
 
 data class DetailsResponse(
-        @Json(name = "artObject") val artObject: ArtObjectDetail
+        @Json(name = "artObject") val artObject: ArtObjectDetail?
 )
 
 data class ArtObjectDetail(

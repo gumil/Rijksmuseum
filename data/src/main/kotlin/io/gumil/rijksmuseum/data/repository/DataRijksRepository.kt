@@ -27,7 +27,7 @@ internal class DataRijksRepository(
     override fun getCollection(id: String): Observable<ArtObjectDetail> {
         return api.getCollection(id)
                 .map {
-                    it.artObject
+                    it.artObject ?: throw ItemNotFoundException()
                 }
                 .toObservable()
                 .applySchedulers()
