@@ -60,4 +60,8 @@ dependencies {
     implementation dependencies.kaskade
     implementation dependencies.kaskadeRx
     implementation dependencies.kaskadeLiveData
+
+    testImplementation dependencies.junit
+    testImplementation dependencies.coreTesting
+    testImplementation dependencies.mockito
 }
