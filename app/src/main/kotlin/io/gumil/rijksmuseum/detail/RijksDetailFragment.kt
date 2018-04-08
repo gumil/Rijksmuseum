@@ -5,21 +5,14 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
-import android.text.Spannable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
 import android.view.View
-import android.widget.TextView
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import io.gumil.rijksmuseum.CollectionDetailItem
 import io.gumil.rijksmuseum.CollectionItem
 import io.gumil.rijksmuseum.R
-import io.gumil.rijksmuseum.common.BaseFragment
-import io.gumil.rijksmuseum.common.BaseViewModel
-import io.gumil.rijksmuseum.common.load
-import io.gumil.rijksmuseum.common.preLoad
+import io.gumil.rijksmuseum.common.*
 import io.gumil.rijksmuseum.data.response.LinkType
 import io.gumil.rijksmuseum.list.RijksListFragment
 import io.gumil.rijksmuseum.main.Backstack
@@ -136,26 +129,10 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
 
     private fun SpannableStringBuilder.addToBuilder(string: String?, type: LinkType, customString: String? = null) {
         string?.let {
-            append(it.toClickableSpan(type, customString))
-                    .append(" ")
+            append(it.toClickableSpan {
+                spanOnClickSubject.onNext(type to (customString ?: it))
+            }).append(" ")
         }
-    }
-
-    private fun String.toClickableSpan(type: LinkType, customString: String? = null) : Spannable {
-        return SpannableString(this).apply {
-            setSpan(object : ClickableSpan() {
-                override fun onClick(widget: View?) {
-                    spanOnClickSubject.onNext(type to (customString ?: this@toClickableSpan))
-                }
-            }, 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        }
-    }
-
-    private fun TextView.setTextAndVisibility(text: CharSequence?) {
-        text?.let {
-            this.text = it
-            visibility = View.VISIBLE
-        } ?: let { visibility = View.GONE }
     }
 
     companion object {
