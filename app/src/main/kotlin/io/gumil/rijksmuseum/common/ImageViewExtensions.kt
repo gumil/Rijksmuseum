@@ -6,6 +6,7 @@ import android.net.Uri
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
 import com.bumptech.glide.TransitionOptions
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
@@ -25,7 +26,7 @@ internal fun ImageView.load(url: String?,
                 .load(Uri.parse(url))
                 .apply {
                     requestOptions?.invoke(RequestOptions())?.let {
-                        apply(it)
+                        apply(it.priority(Priority.HIGH))
                     }
 
                     transitionOptions?.let { transition(it) }

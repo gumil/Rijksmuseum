@@ -9,7 +9,8 @@ import io.gumil.rijksmuseum.R
 
 internal sealed class DetailState : State {
     data class View(
-            val detailItem: CollectionDetailItem? = null
+            val detailItem: CollectionDetailItem? = null,
+            val isLoaded: Boolean = false
     ) : DetailState()
 
     data class Error(
@@ -26,10 +27,11 @@ internal sealed class DetailAction : Action {
 internal sealed class DetailResult : Result<DetailState> {
 
     data class Success(
-            private val detailItem: CollectionDetailItem?
+            private val detailItem: CollectionDetailItem?,
+            private val isLoaded: Boolean = false
     ) : DetailResult() {
         override fun reduceToState(oldState: DetailState): DetailState =
-                DetailState.View(detailItem)
+                DetailState.View(detailItem, isLoaded)
     }
 
     class Error : DetailResult() {

@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.View
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import io.gumil.rijksmuseum.CollectionItem
 import io.gumil.rijksmuseum.R
 import io.gumil.rijksmuseum.common.BaseFragment
@@ -55,15 +56,16 @@ internal class RijksDetailFragment : BaseFragment<DetailState, DetailAction>() {
         when (this) {
             is DetailState.View -> {
                 detailItem?.let {
-                    if (it.height > -1 && it.width > -1) {
-                        compositeDisposable.add(artImage.preLoad(it.image) {
-                            swipeRefreshLayout.isRefreshing = false
-                            swipeRefreshLayout.isEnabled = false
-                        })
+                    if (isLoaded) {
+                        swipeRefreshLayout.isRefreshing = false
+                        swipeRefreshLayout.isEnabled = false
+                        compositeDisposable.add(artImage.preLoad(it.image))
                     } else {
-                        artImage.load(it.image) { centerCrop() }
                         swipeRefreshLayout.isEnabled = true
                         swipeRefreshLayout.isRefreshing = true
+                        artImage.load(it.image, {
+                            placeholder(R.drawable.ic_image_24dp)
+                        }, DrawableTransitionOptions.withCrossFade())
                     }
                 }
             }

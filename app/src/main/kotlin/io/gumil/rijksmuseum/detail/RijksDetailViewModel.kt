@@ -30,7 +30,7 @@ internal class RijksDetailViewModel(
     private fun RijksRepository.loadItem(item: CollectionItem): Observable<DetailResult> {
         return getCollection(item.id)
                 .map {
-                    DetailResult.Success(it.mapToItem())
+                    DetailResult.Success(it.mapToItem(), true)
                 }
                 .ofType(DetailResult::class.java)
                 .onErrorReturn {
@@ -38,7 +38,7 @@ internal class RijksDetailViewModel(
                     DetailResult.Error()
                 }
                 .startWith(DetailResult.Success(
-                        CollectionDetailItem(item.title, item.image)
+                        CollectionDetailItem(item.title, item.webImage)
                 ))
                 .applySchedulers()
     }
