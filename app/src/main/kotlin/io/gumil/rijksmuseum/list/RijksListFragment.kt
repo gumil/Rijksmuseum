@@ -53,7 +53,11 @@ internal class RijksListFragment : BaseFragment<ListState, ListAction>() {
     override fun initializeViews(view: View) {
         setToolbar(toolbar)
         showBack(searchString != null)
-        title = searchString ?: getString(R.string.app_name)
+        title = searchString?.let {
+            if (type == LinkType.PERIOD) {
+                getString(R.string.century, it.toInt().ordinal())
+            } else it
+        } ?: getString(R.string.app_name)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
     }

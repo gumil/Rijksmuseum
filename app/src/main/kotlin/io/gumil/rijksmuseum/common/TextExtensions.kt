@@ -22,3 +22,11 @@ internal fun TextView.setTextAndVisibility(text: CharSequence?) {
         visibility = View.VISIBLE
     } ?: let { visibility = View.GONE }
 }
+
+internal fun Int.ordinal(): String {
+    val sufixes = arrayOf("th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th")
+    return when (this % 100) {
+        11, 12, 13 -> this.toString() + "th"
+        else -> this.toString() + sufixes[this % 10]
+    }
+}

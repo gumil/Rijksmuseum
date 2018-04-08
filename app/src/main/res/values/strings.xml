@@ -3,6 +3,8 @@
 
     <string name="tags">tags: </string>
 
+    <string name="century">%s Century</string>
+
     <string name="error_loading">Error loading collections</string>
     <string name="error_loading_single">Error loading item</string>
 </resources>
